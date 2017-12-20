@@ -1,5 +1,8 @@
-import org.apache.kafka.clients.producer.{KafkaProducer, ProducerRecord}
+package without_akka
+
 import java.util.Properties
+
+import org.apache.kafka.clients.producer.{KafkaProducer, ProducerRecord}
 
 object Producer extends App {
 

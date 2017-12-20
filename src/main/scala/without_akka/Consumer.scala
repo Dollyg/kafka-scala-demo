@@ -1,8 +1,8 @@
-import java.util
+package without_akka
 
-import org.apache.kafka.clients.consumer.KafkaConsumer
 import java.util.Properties
 
+import org.apache.kafka.clients.consumer.KafkaConsumer
 import org.apache.kafka.common.TopicPartition
 
 import scala.collection.JavaConverters._
