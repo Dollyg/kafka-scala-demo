@@ -7,7 +7,7 @@ import org.apache.kafka.common.TopicPartition
 
 import scala.collection.JavaConverters._
 
-object Consumer extends App {
+object SubscribeUnsubscribeConsumer extends App {
 
   val props = new Properties()
   props.put("bootstrap.servers", "localhost:9092")
