@@ -44,7 +44,7 @@ class DownstreamActor(p: ActorRef, r: ProducerRecords[String, String]) extends A
   println("Subscribed...")
 
   override def receive: Receive = {
-    case t: ConsumerRecords[String, String] =>
+    case t: ConsumerRecords[_, _] =>
       println(s"Message=${t.pairs}")
       sender() ! Confirm(t.offsets)
   }

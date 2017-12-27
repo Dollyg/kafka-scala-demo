@@ -1,4 +1,4 @@
-package without_akka
+package basic
 
 import java.util.Properties
 
