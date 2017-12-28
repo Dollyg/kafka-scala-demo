@@ -1,17 +1,18 @@
 package with_streams
 
-import akka.Done
+import akka.{Done, NotUsed}
 import akka.actor.ActorSystem
 import akka.kafka._
 import akka.kafka.scaladsl.{Consumer, Producer}
 import akka.stream.{ActorMaterializer, Materializer}
-import akka.stream.scaladsl.Source
+import akka.stream.scaladsl.{Sink, Source}
 import com.typesafe.config.{Config, ConfigFactory}
 import org.apache.kafka.clients.producer.ProducerRecord
-
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.duration.DurationDouble
 import scala.concurrent.Future
 
-object BasicProducer extends App {
+object SimpleProducer extends App {
   implicit val system: ActorSystem = ActorSystem("Basic")
   implicit val mat: Materializer = ActorMaterializer()
 
