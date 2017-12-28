@@ -16,6 +16,7 @@ object PatternMatchingConsumer extends App {
   props.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer")
   props.put("group.id", "G_one")
   props.put("auto.offset.reset", "earliest")
+  props.put("metadata.max.age.ms", "5")
 
   val TOPIC = "test"
   val consumer = new KafkaConsumer[String, String](props)  // gets all topics along with partitions + filter based on topics [Lazy evaluation, will be called on poll]
