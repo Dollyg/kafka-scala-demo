@@ -20,7 +20,7 @@ object OffsetConsumer extends App{
   private val topicPartition = new TopicPartition("new_topic", 0)
   private val kafkaConsumer: KafkaConsumer[Array[Byte], String] = consumerSettings.createKafkaConsumer()
   private val endOffsets = kafkaConsumer.endOffsets(java.util.Collections.singleton(topicPartition))
-  val lastOffset = endOffsets.get(topicPartition) - 1
+  val lastOffset = endOffsets.get(topicPartition)
 
   val subscription = Subscriptions.assignmentWithOffset(topicPartition,lastOffset)
 
