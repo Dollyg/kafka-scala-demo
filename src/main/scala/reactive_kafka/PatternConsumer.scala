@@ -1,12 +1,12 @@
-package with_streams
+package reactive_kafka
 
 import akka.actor.ActorSystem
 import akka.kafka.scaladsl.Consumer
-import akka.kafka.{ConsumerSettings, Subscriptions}
+import akka.kafka.{AutoSubscription, ConsumerSettings, Subscription, Subscriptions}
 import akka.stream.{ActorMaterializer, Materializer}
 import com.typesafe.config.{Config, ConfigFactory}
 
-object SimpleConsumer extends App{
+object PatternConsumer extends App{
   implicit val system: ActorSystem = ActorSystem("Basic")
   implicit val mat: Materializer = ActorMaterializer()
 
@@ -15,8 +15,8 @@ object SimpleConsumer extends App{
   val consumerSettings: ConsumerSettings[Array[Byte], String] =
     ConsumerSettings(consumerConf, None, None)
 
-  val subscription = Subscriptions.topics("new_topic")
-
+  //WIP
+  private val subscription: AutoSubscription = Subscriptions.topicPattern("H.*")
   Consumer.plainSource(consumerSettings, subscription)
     .runForeach(println)
 

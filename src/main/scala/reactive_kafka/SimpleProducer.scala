@@ -1,4 +1,4 @@
-package with_streams
+package reactive_kafka
 
 import akka.{Done, NotUsed}
 import akka.actor.ActorSystem

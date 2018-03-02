@@ -1,29 +1,29 @@
-package with_streams
+package reactive_kafka
 
 import akka.actor.ActorSystem
 import akka.kafka.scaladsl.Consumer
-import akka.kafka.{ConsumerSettings, KafkaConsumerActor, Subscriptions}
+import akka.kafka.{ConsumerSettings, Subscriptions}
+import akka.stream.scaladsl.{BroadcastHub, Keep}
 import akka.stream.{ActorMaterializer, Materializer}
 import com.typesafe.config.{Config, ConfigFactory}
-import org.apache.kafka.common.TopicPartition
 import org.apache.kafka.common.serialization.{ByteArrayDeserializer, StringDeserializer}
 
-object CommonConsumer extends App {
+object BroadcastConsumer extends App {
   implicit val system: ActorSystem = ActorSystem("Basic")
   implicit val mat: Materializer = ActorMaterializer()
 
   private val config = ConfigFactory.load()
   private val consumerConf: Config = config.getConfig("akka.kafka.consumer")
+
   val consumerSettings: ConsumerSettings[Array[Byte], String] =
     ConsumerSettings(system, new ByteArrayDeserializer, new StringDeserializer)
 
-  val consumer = system.actorOf(KafkaConsumerActor.props(consumerSettings))
-  val subscription = Subscriptions.assignment(Set(new TopicPartition("topic1", 0)))
+  val subscription = Subscriptions.topics("topic1")
 
-  Consumer.plainExternalSource[Array[Byte], String](consumer, subscription)
-    .runForeach(x => println("hello1"))
+  private val source = Consumer.plainSource(consumerSettings.withGroupId("a"), subscription)
 
-  Consumer.plainExternalSource[Array[Byte], String](consumer
-    , subscription)
-    .runForeach(x => println("hello2"))
+  private val producer = source.toMat(BroadcastHub.sink(256))(Keep.right).run()
+
+  producer.runForeach(x => println("hello1"))
+  producer.runForeach(x => println("hello2"))
 }
